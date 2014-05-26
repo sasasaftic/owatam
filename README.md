@@ -27,7 +27,7 @@ Go to desired folder
 
 ```sh
 cd your_folder # replace with actual folder name
-git clone
+git clone https://github.com/sasasaftic/owatam.git
 cd owatam
 sudo pip install -r requirements.txt
 

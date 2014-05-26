@@ -1,4 +1,3 @@
-from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -7,8 +6,6 @@ from models import WebPage, Visit, Visitor, VisitAnalyzed, Location
 from django.http import HttpResponse
 import json
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import FormView
 from django.shortcuts import redirect
 from ipware.ip import get_ip
 import pygeoip
@@ -122,11 +119,10 @@ def new_webpage(request):
 def delete_webpage(request, webpage_id):
     if webpage_id:
         try:
-            print WebPage.objects.get(pk=webpage_id, user=request.user)
+            WebPage.objects.get(pk=webpage_id, user=request.user)
             WebPage.objects.get(pk=webpage_id, user=request.user).delete()
         except Exception as e:
             print e
-            print request.user.username, webpage_id
             return render_to_response('new_webpage.html', {"error": "You cannot delete this webpage"},
                                       context_instance=RequestContext(request))
     return redirect('manage')
@@ -168,16 +164,13 @@ def receive_data(request):
         page_id = cookie_id[-36:]
 
         if WebPage.objects.filter(main_domain=hostname, page_id=page_id).count():  # if webpage exists
-            print 1
             web_page = WebPage.objects.get(main_domain=hostname)
 
             visit_analyzeds = VisitAnalyzed.objects.filter(webpage=web_page, date=date_no_time)
             if visit_analyzeds.count():  # if visit analyzer exists else create one
-                print 2
                 visit_analyzed = visit_analyzeds[0]
 
             else:
-                print 3
                 visit_analyzed = VisitAnalyzed.objects.create(webpage=web_page, date=date_no_time)
                 visit_analyzed.last_visit = date
                 add_device_and_browser_info(request, web_page)  # get users device and browser information
@@ -186,10 +179,8 @@ def receive_data(request):
 
             visitor_set = Visitor.objects.filter(cookie_id=cookie_id, webpage=web_page)  # if visitor exists else create one
             if visitor_set.count():
-                print 4
                 visitor = visitor_set[0]
             else:
-                print 5
                 visitor = Visitor.objects.create(cookie_id=cookie_id, webpage=web_page)
                 visitor.last_visited_page = host
                 visitor.last_page_visit = date
@@ -200,7 +191,6 @@ def receive_data(request):
                 visitor.save()
 
             time_diff = (date - visitor.last_visit).seconds  # get time difference from last visit
-            print time_diff
             if 50 < time_diff < 200:  # if time difference is betwen active offset and new visit offset then this is still active usage
                 new_average_active = (visit_analyzed.num_of_samples_active * visit_analyzed.average_time_active +
                                       time_diff) / (visit_analyzed.num_of_samples_active + 1)
@@ -237,21 +227,16 @@ def receive_data(request):
                     page_analyzed = PageAnalyzed.objects.create(webpage=web_page, page=visitor.last_visited_page)
 
                 time_diff = (date - visitor.last_page_visit).seconds
-
                 if time_diff < 300:
                     page_analyzed.average_time = (page_analyzed.num_of_samples * page_analyzed.average_time +
                                                   time_diff) / (page_analyzed.num_of_samples + 1)
-
                     page_analyzed.num_of_samples += 1
-
                 page_analyzed.save()
-
                 visitor.last_visited_page = host
                 visitor.last_page_visit = date
                 visitor.save()
 
             if action == "scroll_call":
-
                 if visitor.last_visited_element is None:
                     visitor.last_visited_element = element
                     visitor.last_element_visit = date
@@ -264,7 +249,6 @@ def receive_data(request):
                     element_analayzed = ElementAnalyzed.objects.create(webpage=web_page, page=host, element=visitor.last_visited_element)
 
                 time_diff = (date - visitor.last_element_visit).seconds
-
                 if time_diff < 300:
                     element_analayzed.average_time = (element_analayzed.num_of_samples * element_analayzed.average_time +
                     time_diff) / (element_analayzed.num_of_samples + 1)
