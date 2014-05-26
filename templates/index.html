@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load app_filters %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1><i class="glyphicon glyphicon-home"></i> Dashboard</h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url "dashboard" %}"><i class="icon-dashboard"></i> Dashboard</a></li>
+            <li class="active"><i class="icon-file-alt"></i> Overview</li>
+        </ol>
+    </div>
+    <div id="page-wrapper">
+
+        <div class="row">
+
+        {% if info %}
+                    <div class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ info }}
+                    </div>
+                    {% else %}
+
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-time"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p class="announcement-heading">{{ avg_active_time }}</p>
+                  </div>
+                </div>
+              </div>
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      Average active time spent!
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+        <div class="col-lg-3">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-time"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p class="announcement-heading">{{ avg_time }}</p>
+                  </div>
+                </div>
+              </div>
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      Average time spent!
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        <div class="col-lg-3">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-user"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p class="announcement-heading">{{ all_users }}</p>
+                  </div>
+                </div>
+              </div>
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      All visits!
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+        <div class="col-lg-3">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-user"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p class="announcement-heading">{{ unique_users }}</p>
+                  </div>
+                </div>
+              </div>
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      Unique visits!
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+            <div class="col-lg-12">
+                <div class="content-box">
+                    <h3>Visits</h3>
+                    <div id="line-example" style="height: 200px"></div>
+
+                </div>
+            </div>
+        <div class="col-lg-3">
+                <div class="content-box">
+                    <h3>Type of devices</h3>
+                    <div id="donut-device-info" style="height: 250px"></div>
+                </div>
+            </div>
+        <div class="col-lg-3">
+                <div class="content-box">
+                    <h3>Browsers</h3>
+                    <div id="donut-browser" style="height: 250px"></div>
+                </div>
+            </div>
+        <div class="col-lg-3">
+                <div class="content-box">
+                    <h3>Devices</h3>
+                    <div id="donut-device" style="height: 250px"></div>
+                </div>
+            </div>
+        <div class="col-lg-3">
+                <div class="content-box">
+                    <h3>Operating system</h3>
+                    <div id="donut-operating" style="height: 250px"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="content-box">
+                    <h3>Visits by location (top 5)</h3>
+
+                    <table class="table table-hover mb30">
+                        <thead>
+                        <tr>
+                            <th>Continent</th>
+                            <th>Country</th>
+                            <th>City</th>
+                            <th>Time zone</th>
+                            <th>Visits</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for location in locations %}
+                            <tr>
+                                <td>{% if location.continent != Null %}{{ location.continent }}{% else %} Unknown{% endif %}</td>
+                                <td>{% if location.country != Null %}{{ location.country }}{% else %} Unknown{% endif %}</td>
+                                <td>{% if location.city != Null %}{{ location.city }}{% else %} Unknown{% endif %}</td>
+                                <td>{% if location.time_zone != Null %}{{ location.time_zone }}{% else %} Unknown{% endif %}</td>
+                                <td>{% if location.num_of_visits != Null %}{{ location.num_of_visits }}{% else %} Unknown{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="{% url "locations" %}">View all <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="content-box">
+                    <h3>Average time per page (top 5)</h3>
+
+                    <table class="table table-hover mb30">
+                        <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Average time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for page, time in pages %}
+                            <tr>
+                                <td>{{ page.page }}</td>
+                                <td>{{ time }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="{% url "pages" %}">View all <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="content-box">
+                    <h3>Average time per element (top 5)</h3>
+
+                    <table class="table table-hover mb30">
+                        <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Element</th>
+                            <th>Average time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for element, time in elements %}
+                            <tr>
+                                <td>{{ element.page }}</td>
+                                <td>{{ element.element }}</td>
+                                <td>{{ time }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="{% url "elements" %}">View all <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+        {% endif %}
+    </div><!-- /#page-wrapper -->
+
+{% endblock %}
+
+{% block javascript %}
+
+    {% if not info %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+
+    <script>
+
+        Morris.Line({
+            element: 'line-example',
+            data: [
+
+    {% for date in dates_list %}
+                    { d: '{{ date }}', visits: {{ date_visits_all|get_item:date }}, unique: {{ date_visits_unique|get_item:date }} },
+                {% endfor %}
+            ],
+            xkey: 'd',
+            ykeys: ['visits', 'unique'],
+            labels: ['All visits', 'Unique visits'],
+            smooth: false
+        });
+
+        {% if about_device != None %}
+    Morris.Donut({
+      element: 'donut-device-info',
+      data: [
+        {label: "Mobile", value: {{ about_device.mobile }}},
+        {label: "Tablet", value: {{ about_device.tablet }}},
+        {label: "Touch capable", value: {{ about_device.touch_capable }}},
+        {label: "Pc", value: {{ about_device.pc }}},
+        {label: "Bot", value: {{ about_device.bot }}},
+
+      ]
+    });
+    {% endif %}
+
+    {% if about_device|length > 0 %}
+    Morris.Donut({
+      element: 'donut-browser',
+      data: [
+          {% for browser in browsers %}
+        {label: '{{ browser.browser }}', value: {{ browser.num_of_browsers }}},
+        {% endfor %}
+
+      ]
+    });
+    {% else %}
+        Morris.Donut({
+      element: 'donut-browser',
+      data: [
+        {label: 'No data yet', value: 1},
+
+      ]
+    });
+    {% endif %}
+
+    {% if about_device|length > 0 %}
+    Morris.Donut({
+      element: 'donut-device',
+      data: [
+          {% for device in devices %}
+        {label: '{{ device.device }}', value: {{ device.num_of_devices }}},
+        {% endfor %}
+
+      ]
+    });
+    {% else %}
+        Morris.Donut({
+      element: 'donut-device',
+      data: [
+        {label: 'No data yet', value: 1},
+
+      ]
+    });
+    {% endif %}
+
+    {% if about_device|length > 0 %}
+    Morris.Donut({
+      element: 'donut-operating',
+      data: [
+          {% for os in oss %}
+        {label: '{{ os.os }}', value: {{ os.num_of_oss }}},
+        {% endfor %}
+
+      ]
+    });
+    {% else %}
+        Morris.Donut({
+      element: 'donut-operating',
+      data: [
+        {label: 'No data yet', value: 1},
+
+      ]
+    });
+    {% endif %}
+
+    fontsize = function () {
+    var fontSize = $(".panel-heading").width() * 0.12; // 10% of container width
+        $(".panel-heading p").css('font-size', fontSize);
+    };
+    $(window).resize(fontsize);
+    $(document).ready(fontsize);
+
+    </script>
+    {% endif %}
+{% endblock %}
+

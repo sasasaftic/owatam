@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    Manage
+{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1><i class="glyphicon glyphicon-edit"></i> Manage</h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url "manage" %}"><i class="icon-dashboard"></i> Manage</a></li>
+            <li class="active"><i class="icon-file-alt"></i> New web page</li>
+        </ol>
+    </div>
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content-box">
+                    {% if error %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    <h3>Add a new web page</h3>
+                    <form action="{% url "new_webpage" %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" class="form-control" name="domain" placeholder="hostname"><br>
+                        <input type="submit" class="btn btn-success" value="Add new">
+                    </form>
+                    {% if javascript %}
+                        <br>
+                    <div>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            Page sucessfully added.
+                        </div>
+                        <p>Please copy this code to the bottom of every page (etc. example.com/login, example.com/home,...) just before &lt;/body&gt; tag</p>
+                        <code>{{ javascript }}</code>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /#page-wrapper -->
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+

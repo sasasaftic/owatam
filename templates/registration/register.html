@@ -1,0 +1,61 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body class="gray_background">
+
+<section>
+    <div class="login_content">
+        <div class="row">
+
+            <div class="col-md-12">
+            <form method="post" action="#">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Wrong username or password
+                    </div>
+                {% endif %}
+
+                <img src="{% static "img/owatam.png" %}">
+                <div class="text col-md-7 no_margin">
+                    <br>
+                    <p>Register to create your account.</p>
+                </div>
+
+                {% csrf_token %}
+                <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text">
+                <input class="form-control" placeholder="Password" id="id_password1" maxlength="4096" name="password1" type="password">
+                <input class="form-control" placeholder="Password" id="id_password2" maxlength="4096" name="password2" type="password">
+
+                <br>
+                <input type="hidden" name="next" value="/"/>
+                <input class="btn btn-success btn-block" type="submit" value="register">
+                <span class="small_text">Allready have owatam account? <a href="{% url 'login' %}">Log in</a></span>
+            </form>
+
+
+        </div>
+
+
+        <form action="#" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="m2ppK3EzbpxiQPIe3RfUOVd8QcHe8lWP">
+<label for="id_username">Username:</label><input id="id_username" maxlength="30" name="username" type="text"><br><span class="helptext">Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+<label for="id_password1">Password:</label><input id="id_password1" maxlength="4096" name="password1" type="password">
+<label for="id_password2">Password confirmation:</label><input id="id_password2" maxlength="4096" name="password2" type="password"><br><span class="helptext">Enter the same password as above, for verification.</span>
+    <input type="submit" value="register">
+</form>
+</div>
+
+    </div>
+</section>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+

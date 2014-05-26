@@ -1,0 +1,246 @@
+body{
+    font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
+    color: #636e7b;
+    background: #e4e7ea;
+    margin-top: 50px;
+}
+
+.gray_background{
+    background: #e4e7ea;
+}
+.login_content{
+    width: 500px;
+    margin: 10% auto 0 auto;
+}
+
+.login_content form{
+    border: 1px solid #ccc;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 3px 0 rgba(12,12,12,0.03);
+    border-radius: 3px;
+    padding: 30px;
+}
+
+.no_margin {
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+  padding-left: 0;
+}
+
+#page-wrapper {
+  width: 100%;
+  padding: 5px 15px;
+}
+
+/* Nav Messages */
+
+.messages-dropdown .dropdown-menu .message-preview .avatar,
+.messages-dropdown .dropdown-menu .message-preview .name,
+.messages-dropdown .dropdown-menu .message-preview .message,
+.messages-dropdown .dropdown-menu .message-preview .time {
+  display: block;
+}
+
+.messages-dropdown .dropdown-menu .message-preview .avatar {
+  float: left;
+  margin-right: 15px;
+}
+
+.messages-dropdown .dropdown-menu .message-preview .name {
+  font-weight: bold;
+}
+
+.messages-dropdown .dropdown-menu .message-preview .message {
+  font-size: 12px;
+}
+
+.messages-dropdown .dropdown-menu .message-preview .time {
+  font-size: 12px;
+}
+
+
+/* Nav Announcements */
+
+.announcement-heading {
+  font-size: 50px;
+  margin: 0;
+}
+
+.announcement-text {
+  margin: 0;
+}
+
+/* Table Headers */
+
+table.tablesorter thead {
+  cursor: pointer;
+}
+
+table.tablesorter thead tr th:hover {
+  background-color: #f5f5f5;
+}
+
+/* Flot Chart Containers */
+
+.flot-chart {
+  display: block;
+  height: 400px;
+}
+
+.flot-chart-content {
+  width: 100%;
+  height: 100%;
+}
+
+.side-nav h5 {
+    font-size: 11px;
+    padding: 5px 15px;
+    color: #999;
+}
+.side-nav{
+    padding: 10px;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
+    background-color: #1caf9a;
+    color: #fff;
+}
+
+.page-header{
+    padding: 15px 15px 0 15px;
+border-bottom: 1px solid #d3d7db;
+border-top: 1px solid #eee;
+background: #f7f7f7;
+
+}
+
+.page-header h1{
+    font-size: 28px !important;
+color: #1D2939;
+letter-spacing: -0.5px;
+margin: 0;
+}
+
+.content-box{
+    border: 1px solid #ddd;
+    padding: 20px;
+    background: white;
+    margin-bottom: 20px;
+}
+.content-box h3{
+    margin-top: 0;
+    font-size: 16px;
+    color: #000000;
+}
+
+.selected{
+     background: rgb(212, 243, 230);
+}
+
+.panel-heading .glyphicon{
+    font-size: 80px;
+}
+
+.panel-heading .announcement-heading{
+    font-size: 40px;
+}
+
+.panel{
+    border: none;
+}
+
+
+code{
+    white-space: normal;
+}
+
+
+/* Edit Below to Customize Widths > 768px */
+@media (min-width:768px) {
+
+  /* Wrappers */
+
+  #wrapper {
+	padding-left: 225px;
+  }
+
+  #page-wrapper {
+	padding: 0 25px;
+  }
+
+  /* Side Nav */
+
+  .side-nav {
+	margin-left: -225px;
+	left: 225px;
+	width: 225px;
+	position: fixed;
+	top: 50px;
+	height: 100%;
+	border-radius: 0;
+	border: none;
+	background-color: #1d2939;
+	overflow-y: auto;
+  }
+
+  /* Bootstrap Default Overrides - Customized Dropdowns for the Side Nav */
+
+  .side-nav>li.dropdown>ul.dropdown-menu {
+	position: relative;
+	min-width: 225px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+  }
+
+  .side-nav>li.dropdown>ul.dropdown-menu>li>a {
+	color: #999999;
+	padding: 15px 15px 15px 25px;
+  }
+
+  .side-nav>li.dropdown>ul.dropdown-menu>li>a:hover,
+  .side-nav>li.dropdown>ul.dropdown-menu>li>a.active,
+  .side-nav>li.dropdown>ul.dropdown-menu>li>a:focus {
+	color: #fff;
+	background-color: #080808;
+  }
+
+  .side-nav>li>a {
+	    width: 200px;
+        border-radius: 3px;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+	color: #1d2939;
+    background-color: #fff;
+  }
+
+  /* Nav Messages */
+
+  .messages-dropdown .dropdown-menu {
+	min-width: 300px;
+  }
+
+  .messages-dropdown .dropdown-menu li a {
+	white-space: normal;
+  }
+
+  .navbar-collapse {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  .navbar-fixed-top {
+    background: white;
+    border: none;
+  }
+
+}
+

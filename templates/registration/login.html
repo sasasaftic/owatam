@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body class="gray_background">
+
+<section>
+    <div class="login_content">
+        <div class="row">
+
+            <div class="col-md-12">
+            <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Wrong username or password
+                    </div>
+                {% endif %}
+
+                <img src="{% static "img/owatam.png" %}">
+                <div class="text col-md-7 no_margin">
+                    <br>
+                    <p>Login to access your account.</p>
+                </div>
+
+                {% csrf_token %}
+                <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text">
+                <input class="form-control" placeholder="Password" id="id_password" maxlength="4096" name="password" type="password">
+                <br>
+                <button class="btn btn-success btn-block">Sign In</button>
+                <input type="hidden" name="next" value="{{ next }}"/>
+                <span class="small_text">Don't have owatam account? <a href="{% url 'register' %}">Register</a></span>
+            </form>
+
+
+        </div>
+</div>
+
+    </div>
+</section>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+Error {{ error }}
+<form method="post" action="#">
+    {% csrf_token %}
+    Enter your page domain: <input type="text" name="page_domain">
+    <input type="submit" value="save">
+</form>
+</body>
+</html>
